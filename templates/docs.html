@@ -20,6 +20,11 @@ docs
                 <span class="me-2">Title: {{ el.title }}.</span>
                 <span class="me-2">Author: {{ el.author }}.</span>
                 <span class="me-2">Year: {{ el.year }}.</span>
+                {% if el.picture_name %}
+                    <img src="{{ url_for('file', filename=el.picture_name) }}" width="128">
+                {% else %}
+                    <img src="/static/default.jpg" width="128">
+                {% endif %}
             </h6>
         </div>
         {% endfor %}

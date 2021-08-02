@@ -7,11 +7,13 @@ create_doc
 {% block body %}
 <div class="container">
     <h3>Create a document</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
 <!--        обработка на этой странице, поэтому action не прописывается-->
-        <input type="text" name="title" id="title" class="form-control" placeholder="Enter the title of the book "><br>
-        <input type="text" name="author" id="author" class="form-control" placeholder="Enter the author of the book"><br>
-        <input type="number" name="year" id="year" class="form-control" placeholder="Enter the year of publication of the book"><br>
+        <input type="text" name="title" id="title" class="form-control" placeholder="Enter the title of the book" required><br>
+        <input type="text" name="author" id="author" class="form-control" placeholder="Enter the author of the book" required><br>
+        <input type="number" name="year" id="year" class="form-control" placeholder="Enter the year of publication of the book" required><br>
+        <label for="picture">Upload a picture with a book cover (optional)</label>
+        <input type="file" name="picture" id="picture" class="form-control-file"><br>
         <input type="submit" class="btn btn-success" value="Create">
     </form>
 </div>

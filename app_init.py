@@ -1,5 +1,6 @@
 from flask import Flask
 from pymongo import MongoClient
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 
@@ -10,3 +11,5 @@ user_coll = db['users']  # с авторизацией работаем с ко�
 
 app.config.from_pyfile('config.cfg')
 
+app.config["MONGO_URI"] = "mongodb://localhost:27017/pymongo_test"
+mongo = PyMongo(app)

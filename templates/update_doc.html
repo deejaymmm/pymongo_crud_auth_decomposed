@@ -7,11 +7,14 @@ update_doc
 {% block body %}
 <div class="container">
     <h3>Update a document</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
 <!--      обработка на этой странице, поэтому action не прописывается-->
-        <input type="text" name="title" id="title" class="form-control" value="{{ doc.title }}"><br>
-        <input type="text" name="author" id="author" class="form-control" value="{{ doc.author }}"><br>
-        <input type="number" name="year" id="year" class="form-control" value="{{ doc.year }}"><br>
+        <input type="text" name="title" id="title" class="form-control" value="{{ doc.title }}" required><br>
+        <input type="text" name="author" id="author" class="form-control" value="{{ doc.author }}" required><br>
+        <input type="number" name="year" id="year" class="form-control" value="{{ doc.year }}" required><br>
+        <label for="picture">Upload a picture with a book cover (optional)</label>
+        <input type="file" name="picture" id="picture" class="form-control-file" value="{{ doc.picture_name }}"><br>
+        <img src="{{ url_pic }}" width="512"><br><br>
         <input type="submit" class="btn btn-success" value="Update">
     </form>
 </div>

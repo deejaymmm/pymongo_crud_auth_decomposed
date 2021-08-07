@@ -35,15 +35,15 @@ def file(filename):
     return mongo.send_file(filename)
 
 
-@app.route('/qqq/<_id>')
-def qqq(_id):
-    id_ = ObjectId(_id)
-    doc1 = mongo.db.docs.find_one_or_404({'_id' : id_})
-    # print(url_for('file', filename=doc1['picture_name']))
-    return f'''
-        <h1>{doc1['picture_name']}</h1>
-        <img src="{url_for('file', filename=doc1['picture_name'])}">
-    '''
+# @app.route('/qqq/<_id>')
+# def qqq(_id):
+#     id_ = ObjectId(_id)
+#     doc1 = mongo.db.docs.find_one_or_404({'_id' : id_})
+#     # print(url_for('file', filename=doc1['picture_name']))
+#     return f'''
+#         <h1>{doc1['picture_name']}</h1>
+#         <img src="{url_for('file', filename=doc1['picture_name'])}">
+#     '''
 
 
 @app.route('/docs/<_id>/update', methods=['POST', 'GET'])  # редактирование документа
@@ -64,20 +64,26 @@ def update_doc(_id):
         author = request.form['author']
         year = request.form['year']
         picture = request.files['picture']
+        movie = request.files['movie']
 
         updating_doc = {  # создаем новый документ
             "title": title,
             "author": author,
             "year": year,
-            "picture_name": picture.filename
+            "picture_name": picture.filename,
+            "movie_name": movie.filename
         }
 
         try:
+            doc1 = collection.find_one({'_id': id_})
             if picture.filename:
                 mongo.save_file(picture.filename, picture)
             else:
-                doc1 = collection.find_one({'_id': id_})
                 updating_doc['picture_name'] = doc1['picture_name']
+            if movie.filename:
+                mongo.save_file(movie.filename, movie)
+            else:
+                updating_doc['movie_name'] = doc1['movie_name']
             collection.update_one({'_id': id_}, {'$set': updating_doc})
 
             print('Document with _id: ' + str(id_) + ' has been updated successfully.')
@@ -102,27 +108,23 @@ def create_doc():
         author = request.form['author']
         year = request.form['year']
         picture = request.files['picture']
-        # print(picture)
+        movie = request.files['movie']
 
         new_doc = {  # создаем новый документ
             "title": title,
             "author": author,
             "year": year,
-            "picture_name": picture.filename
+            "picture_name": picture.filename,
+            "movie_name": movie.filename
         }
 
         try:
             mongo.save_file(picture.filename, picture)
+            mongo.save_file(movie.filename, movie)
             result = collection.insert_one(new_doc).inserted_id
             print('Document with _id: ' + str(result) + ' has been created successfully.')
             # добавляем новый документ в коллекцию
             # и выводим в консоль его _id
-
-            if 'profile_image' in request.files:
-                profile_image = request.files['profile_image']
-                mongo.save_file(profile_image.filename, profile_image)
-                mongo.db.users.insert(
-                    {'username': request.form.get('username'), 'profile_image_name': profile_image.filename})
 
             return redirect('/docs')  # переадресовываем на вывод коллекции документов
         except:

@@ -15,6 +15,8 @@ update_doc
         <label for="picture">Upload a picture with a book cover (optional)</label>
         <input type="file" name="picture" id="picture" class="form-control-file" value="{{ doc.picture_name }}"><br>
         <img src="{{ url_pic }}" width="512"><br><br>
+        <label for="movie">Upload a movie based on the book (optional)</label>
+        <input type="file" name="movie" id="movie" class="form-control-file" value="{{ doc.movie_name }}"><br>
         <input type="submit" class="btn btn-success" value="Update">
     </form>
 </div>

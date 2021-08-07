@@ -21,9 +21,14 @@ docs
                 <span class="me-2">Author: {{ el.author }}.</span>
                 <span class="me-2">Year: {{ el.year }}.</span>
                 {% if el.picture_name %}
-                    <img src="{{ url_for('file', filename=el.picture_name) }}" width="128">
+                    <img src="{{ url_for('file', filename=el.picture_name) }}" width="128" class="me-2">
                 {% else %}
-                    <img src="/static/default.jpg" width="128">
+                    <img src="/static/default.jpg" width="128" class="me-2">
+                {% endif %}
+                {% if el.movie_name %}
+                    <span class="me-2"><a href="/file/{{ el.movie_name }}" class="btn btn-info">Download movie</a></span>
+                {% else %}
+                    <span class="me-2">Movie file not attached.</span>
                 {% endif %}
             </h6>
         </div>
